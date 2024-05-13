@@ -38,7 +38,7 @@ function App() {
       <CssBaseline />
       <Container maxWidth="sm">
         <CurrencyConverter />
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px', position:'fixed', bottom:'10px', right:'10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', position:'fixed', top:'15px', right:'15px' }}>
           <Typography>Dark Mode</Typography>
           <Switch checked={darkMode} onChange={toggleTheme} />
         </div>
