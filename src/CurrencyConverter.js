@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, MenuItem, IconButton, Paper } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { TextField, Typography, Grid, MenuItem, IconButton, Paper } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { green } from '@mui/material/colors';
 
 const CurrencyConverter = () => {
     const [amount, setAmount] = useState(() => localStorage.getItem('amount') || '1');
@@ -66,94 +66,75 @@ const CurrencyConverter = () => {
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
             <Paper sx={{ padding: '30px', maxWidth: '450px' }}>
-                <Typography variant="h4" style={{ marginBottom: 16 }}>
+                <Typography variant="h4" component="h1" style={{ marginBottom: 16, textAlign: 'center' }}>
                     Currency Converter
                 </Typography>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Amount"
-                            variant="outlined"
-                            type="number"
-                            value={amount}
-                            onChange={handleAmountChange}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={5}>
-                        <TextField
-                            select
-                            label="From"
-                            variant="outlined"
-                            value={currencyFrom}
-                            onChange={(e) => {
-                                setCurrencyFrom(e.target.value);
-                                handleCurrencyChange();
-                            }}
-                            fullWidth
-                            SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 200 } } } }}
-                        >
-                            {Object.keys(exchangeRates).map(currency => (
-                                <MenuItem key={currency} value={currency}>{currency}</MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: 'center' }}>
-                        <IconButton onClick={handleRevert} size="large">
-                            <SwapHorizIcon />
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={5}>
-                        <TextField
-                            select
-                            label="To"
-                            variant="outlined"
-                            value={currencyTo}
-                            onChange={(e) => {
-                                setCurrencyTo(e.target.value);
-                                handleCurrencyChange();
-                            }}
-                            fullWidth
-                            SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 200 } } } }}
-                        >
-                            {Object.keys(exchangeRates).map(currency => (
-                                <MenuItem key={currency} value={currency}>{currency}</MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    {convertedAmount && (
+                {Object.keys(exchangeRates).length > 0 && (
+                    <Grid container spacing={2} alignItems="center">
                         <Grid item xs={12}>
-                            <Typography variant="h6">
-                                {amount} {currencyFrom} = {convertedAmount} {currencyTo}
-                            </Typography>
+                            <TextField
+                                label="Amount"
+                                variant="outlined"
+                                type="number"
+                                value={amount}
+                                onChange={handleAmountChange}
+                                fullWidth
+                            />
                         </Grid>
-                    )}
-                    <Grid item xs={12}>
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                        <Grid item xs={5}>
+                            <TextField
+                                select
+                                label="From"
+                                variant="outlined"
+                                value={currencyFrom}
+                                onChange={(e) => {
+                                    setCurrencyFrom(e.target.value);
+                                    handleCurrencyChange();
+                                }}
+                                fullWidth
+                                SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 200 } } } }}
                             >
-                                <Typography variant="h6" style={{ marginTop: 16 }}>
-                                    Exchange Rates
+                                {Object.keys(exchangeRates).map(currency => (
+                                    <MenuItem key={currency} value={currency}>{currency}</MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+                        <Grid item xs={2} style={{ textAlign: 'center' }}>
+                            <IconButton onClick={handleRevert} size="large">
+                                <SwapHorizIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <TextField
+                                select
+                                label="To"
+                                variant="outlined"
+                                value={currencyTo}
+                                onChange={(e) => {
+                                    setCurrencyTo(e.target.value);
+                                    handleCurrencyChange();
+                                }}
+                                fullWidth
+                                SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 200 } } } }}
+                            >
+                                {Object.keys(exchangeRates).map(currency => (
+                                    <MenuItem key={currency} value={currency}>{currency}</MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+                        {convertedAmount && (
+                            <Grid item xs={12}>
+                                <Typography variant="h6" style={{ textAlign: 'center' }}>
+                                    {amount} {currencyFrom} = <Typography style={{ color: green[300] }} variant="string">{convertedAmount} {currencyTo}</Typography>
                                 </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <div style={{ width: '100%' }}>
-                                    {Object.entries(exchangeRates).map(([currency, rate]) => (
-                                        <Typography key={currency} variant="body1">
-                                            1 {currencyFrom} = {Number(rate).toFixed(2)} {currency}
-                                        </Typography>
-                                    ))}
-                                </div>
-                            </AccordionDetails>
-                        </Accordion>
+                            </Grid>
+                        )}
                     </Grid>
-                </Grid>
+                )}
             </Paper>
         </div>
     );
+    
 };
 
 export default CurrencyConverter;
