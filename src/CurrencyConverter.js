@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import { TextField, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, MenuItem, IconButton, Paper } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 const CurrencyConverter = () => {
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState(() => localStorage.getItem('amount') || '1');
     const [currencyFrom, setCurrencyFrom] = useState(() => localStorage.getItem('currencyFrom') || 'EUR');
     const [currencyTo, setCurrencyTo] = useState(() => localStorage.getItem('currencyTo') || 'USD');
     const [convertedAmount, setConvertedAmount] = useState('');
@@ -46,30 +40,57 @@ const CurrencyConverter = () => {
         }
     };
 
+    useEffect(() => {
+        localStorage.setItem('amount', amount);
+    }, [amount]);
+
+    const handleRevert = () => {
+        const temp = currencyFrom;
+        setCurrencyFrom(currencyTo);
+        setCurrencyTo(temp);
+    };
+
+    const handleAmountChange = (e) => {
+        setAmount(e.target.value);
+        setTimeout(handleConvert, 500);
+    };
+
+    const handleCurrencyChange = () => {
+        handleConvert();
+    };
+
+    useEffect(() => {
+        handleConvert();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exchangeRates, currencyFrom, currencyTo]);
+
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-            <div style={{ maxWidth: 400, padding: 16, borderRadius: 8, boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', backgroundColor: '#fff' }}>
+            <Paper sx={{ padding: '30px', maxWidth: '450px'}}>
                 <Typography variant="h4" style={{ marginBottom: 16 }}>
                     Currency Converter
                 </Typography>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
                         <TextField
                             label="Amount"
                             variant="outlined"
                             type="number"
                             value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            onChange={handleAmountChange}
                             fullWidth
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={5}>
                         <TextField
                             select
                             label="From"
                             variant="outlined"
                             value={currencyFrom}
-                            onChange={(e) => setCurrencyFrom(e.target.value)}
+                            onChange={(e) => {
+                                setCurrencyFrom(e.target.value);
+                                handleCurrencyChange();
+                            }}
                             fullWidth
                         >
                             {Object.keys(exchangeRates).map(currency => (
@@ -77,24 +98,27 @@ const CurrencyConverter = () => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={2} style={{ textAlign: 'center' }}>
+                        <IconButton onClick={handleRevert} size="large">
+                            <SwapHorizIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={5}>
                         <TextField
                             select
                             label="To"
                             variant="outlined"
                             value={currencyTo}
-                            onChange={(e) => setCurrencyTo(e.target.value)}
+                            onChange={(e) => {
+                                setCurrencyTo(e.target.value);
+                                handleCurrencyChange();
+                            }}
                             fullWidth
                         >
                             {Object.keys(exchangeRates).map(currency => (
                                 <MenuItem key={currency} value={currency}>{currency}</MenuItem>
                             ))}
                         </TextField>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button variant="contained" color="primary" onClick={handleConvert} fullWidth>
-                            Convert
-                        </Button>
                     </Grid>
                     {convertedAmount && (
                         <Grid item xs={12}>
@@ -126,10 +150,9 @@ const CurrencyConverter = () => {
                         </Accordion>
                     </Grid>
                 </Grid>
-            </div>
+            </Paper>
         </div>
     );
 };
 
 export default CurrencyConverter;
-
