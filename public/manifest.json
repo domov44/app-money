@@ -1,6 +1,6 @@
 {
-  "name": "Convert",
-  "short_name": "Convert",
+  "name": "Currency converter",
+  "short_name": "Converter",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

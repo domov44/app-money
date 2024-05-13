@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Typography, Grid, MenuItem, IconButton, Paper } from '@mui/material';
+import { TextField, Typography, Grid, MenuItem, IconButton, Paper, Link } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { green } from '@mui/material/colors';
 
@@ -64,7 +64,7 @@ const CurrencyConverter = () => {
     }, [exchangeRates, currencyFrom, currencyTo]);
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', flexDirection: 'column', gap:'10px' }}>
             <Paper sx={{ padding: '30px', maxWidth: '450px' }}>
                 <Typography sx={{
                     marginBottom: 2,
@@ -138,6 +138,7 @@ const CurrencyConverter = () => {
                     </Grid>
                 )}
             </Paper>
+            <Typography variant='body1'>Made with 🧃 by <Link target="_blank" href="https://ronanscotet.com">Ronan Scotet</Link></Typography>
         </div>
     );
 
