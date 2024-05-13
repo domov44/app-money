@@ -91,6 +91,7 @@ const CurrencyConverter = () => {
                                 handleCurrencyChange();
                             }}
                             fullWidth
+                            SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 200 } } } }}
                         >
                             {Object.keys(exchangeRates).map(currency => (
                                 <MenuItem key={currency} value={currency}>{currency}</MenuItem>
@@ -113,6 +114,7 @@ const CurrencyConverter = () => {
                                 handleCurrencyChange();
                             }}
                             fullWidth
+                            SelectProps={{ MenuProps: { PaperProps: { style: { maxHeight: 200 } } } }}
                         >
                             {Object.keys(exchangeRates).map(currency => (
                                 <MenuItem key={currency} value={currency}>{currency}</MenuItem>
