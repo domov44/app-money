@@ -42,6 +42,7 @@ const CurrencyConverter = () => {
 
     useEffect(() => {
         localStorage.setItem('amount', amount);
+        handleConvert();
     }, [amount]);
 
     const handleRevert = () => {
@@ -52,7 +53,6 @@ const CurrencyConverter = () => {
 
     const handleAmountChange = (e) => {
         setAmount(e.target.value);
-        setTimeout(handleConvert, 500);
     };
 
     const handleCurrencyChange = () => {
@@ -61,12 +61,11 @@ const CurrencyConverter = () => {
 
     useEffect(() => {
         handleConvert();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [exchangeRates, currencyFrom, currencyTo]);
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-            <Paper sx={{ padding: '30px', maxWidth: '450px'}}>
+            <Paper sx={{ padding: '30px', maxWidth: '450px' }}>
                 <Typography variant="h4" style={{ marginBottom: 16 }}>
                     Currency Converter
                 </Typography>
