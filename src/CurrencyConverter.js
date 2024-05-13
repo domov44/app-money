@@ -66,11 +66,17 @@ const CurrencyConverter = () => {
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
             <Paper sx={{ padding: '30px', maxWidth: '450px' }}>
-                <Typography variant="h4" component="h1" style={{ marginBottom: 16, textAlign: 'center' }}>
+                <Typography sx={{
+                    marginBottom: 2,
+                    textAlign: 'center',
+                    fontSize: { xs: 'h6.fontSize', sm: 'h5.fontSize', lg: 'h4.fontSize' }
+                }}
+                    component="h1"
+                >
                     Currency Converter
                 </Typography>
                 {Object.keys(exchangeRates).length > 0 && (
-                    <Grid container spacing={2} alignItems="center">
+                    <Grid container spacing={{ xs: 1, sm: 2, lg: 2 }} alignItems="center">
                         <Grid item xs={12}>
                             <TextField
                                 label="Amount"
@@ -100,7 +106,7 @@ const CurrencyConverter = () => {
                             </TextField>
                         </Grid>
                         <Grid item xs={2} style={{ textAlign: 'center' }}>
-                            <IconButton onClick={handleRevert} size="large">
+                            <IconButton onClick={handleRevert} size="medium">
                                 <SwapHorizIcon />
                             </IconButton>
                         </Grid>
@@ -134,7 +140,7 @@ const CurrencyConverter = () => {
             </Paper>
         </div>
     );
-    
+
 };
 
 export default CurrencyConverter;
