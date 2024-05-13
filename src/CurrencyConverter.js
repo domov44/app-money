@@ -69,7 +69,7 @@ const CurrencyConverter = () => {
                 <Typography sx={{
                     marginBottom: 2,
                     textAlign: 'center',
-                    fontSize: { xs: 'h6.fontSize', sm: 'h5.fontSize', lg: 'h4.fontSize' }
+                    fontSize: { xs: 'h5.fontSize', sm: 'h5.fontSize', lg: 'h4.fontSize' }
                 }}
                     component="h1"
                 >
